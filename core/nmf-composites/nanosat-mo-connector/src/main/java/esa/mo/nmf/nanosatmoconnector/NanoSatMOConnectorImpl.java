@@ -125,7 +125,7 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
         
         HelperMisc.loadPropertiesFile(); // Loads: provider.properties; settings.properties; transport.properties
         ConnectionProvider.resetURILinksFile(); // Resets the providerURIs.properties file
-
+        
         // Create provider name to be registerd on the Directory service...
         String appName = "Unknown";
         try { // Use the folder name
@@ -138,6 +138,10 @@ public class NanoSatMOConnectorImpl extends NMFProvider {
 
         this.providerName = AppsLauncherProviderServiceImpl.PROVIDER_PREFIX_NAME + appName;
 
+        String location = AppStorage.getAppNMFInternalDir() + File.separator + "comArchive.db";
+        String url = "jdbc:sqlite:" + location;
+        System.setProperty("esa.nmf.archive.persistence.jdbc.url", url);
+        
         try {
             comServices.init();
             comServices.initArchiveSync();
