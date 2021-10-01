@@ -285,7 +285,7 @@ public class HelperNMFPackage {
                 if (!(new File(jre)).exists()) {
                     Logger.getLogger(HelperNMFPackage.class.getName()).log(
                             Level.WARNING,
-                            "The JRE could not found in directory: " + path);
+                            "The JRE could not be found in directory: " + path);
                     continue;
                 }
 
