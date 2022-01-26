@@ -7,8 +7,8 @@
 <stringAttribute key="M2_PROFILES" value=""/>
 <listAttribute key="M2_PROPERTIES">
 <listEntry value="exec.args=-classpath %classpath opssat.simulator.main.MainClient"/>
-<listEntry value="exec.executable=/usr/lib/jvm/java-8-openjdk-amd64/bin/java"/>
-<listEntry value="exec.workingdir=/home/yannick/repositories/eclipsePlayground/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"/>
+<listEntry value="exec.executable=PATH_TO_YOUR_JAVA_BINARY/java"/>
+<listEntry value="exec.workingdir=PATH_TO_YOUR_NMF/nanosat-mo-framework/mission/simulator/opssat-spacecraft-simulator"/>
 </listAttribute>
 <stringAttribute key="M2_RUNTIME" value="maven2"/>
 <booleanAttribute key="M2_SKIP_TESTS" value="false"/>
