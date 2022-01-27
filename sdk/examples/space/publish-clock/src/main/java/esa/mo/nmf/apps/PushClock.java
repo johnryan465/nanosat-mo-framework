@@ -20,6 +20,7 @@
  */
 package esa.mo.nmf.apps;
 
+import esa.mo.helpertools.misc.Const;
 import esa.mo.helpertools.misc.TaskScheduler;
 import esa.mo.nmf.MCRegistration;
 import esa.mo.nmf.MonitorAndControlNMFAdapter;
@@ -102,6 +103,7 @@ public class PushClock {
      * @throws java.lang.Exception If there is an error
      */
     public static void main(final String[] args) throws Exception {
+        System.setProperty(Const.CENTRAL_DIRECTORY_URI_PROPERTY, args[0]);
         PushClock demo = new PushClock();
     }
 
