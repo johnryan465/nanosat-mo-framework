@@ -371,28 +371,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>pl.project13.maven</groupId>
-        <artifactId>git-commit-id-plugin</artifactId>
-        <version>4.0.4</version>
-        <executions>
-            <execution>
-                <id>get-the-git-infos</id>
-                <goals>
-                    <goal>revision</goal>
-                </goals>
-                <phase>initialize</phase>
-            </execution>
-        </executions>
-        <configuration>
-            <failOnNoGitDirectory>false</failOnNoGitDirectory>
-            <commitIdGenerationMode>full</commitIdGenerationMode>
-            <gitDescribe>
-              <tags>true</tags>
-              <forceLongFormat>true</forceLongFormat>
-            </gitDescribe>
-        </configuration>
-      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
