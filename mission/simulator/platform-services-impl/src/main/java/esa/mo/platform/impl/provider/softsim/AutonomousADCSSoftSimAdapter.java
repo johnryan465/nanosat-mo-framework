@@ -47,34 +47,30 @@ import org.ccsds.moims.mo.platform.structures.VectorF3D;
  *
  * @author Cesar Coelho
  */
-public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterface
-{
+public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterface {
 
   private final ESASimulator instrumentsSimulator;
   private AttitudeMode activeAttitudeMode;
 
   // Time from Epoch in milliseconds
-  private final static long[] BEGIN_END_TIMES = {0, Long.MAX_VALUE}; // StartTime, StopTime in (milliseconds)
-  private final static byte MODE_STOP = 0;  // Zero means stop; One means start
-  private final static byte MODE_START = 1;  // Zero means stop; One means start
+  private final static long[] BEGIN_END_TIMES = { 0, Long.MAX_VALUE }; // StartTime, StopTime in (milliseconds)
+  private final static byte MODE_STOP = 0; // Zero means stop; One means start
+  private final static byte MODE_START = 1; // Zero means stop; One means start
 
   private PowerControlAdapterInterface pcAdapter;
 
-  public AutonomousADCSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter)
-  {
+  public AutonomousADCSSoftSimAdapter(ESASimulator instrumentsSimulator, PowerControlAdapterInterface pcAdapter) {
     this.instrumentsSimulator = instrumentsSimulator;
     this.pcAdapter = pcAdapter;
   }
 
   @Override
-  public synchronized boolean isUnitAvailable()
-  {
+  public synchronized boolean isUnitAvailable() {
     return pcAdapter.isDeviceEnabled(DeviceType.ADCS);
   }
 
   @Override
-  public synchronized void setDesiredAttitude(final AttitudeMode att) throws IOException
-  {
+  public synchronized void setDesiredAttitude(final AttitudeMode att) throws IOException {
     this.activeAttitudeMode = att;
 
     if (att instanceof AttitudeModeBDot) {
@@ -96,7 +92,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
       final byte actuatorMode = 0; // Zero because it is dummy and only RW is available
       // [0]: Mode Zero means stop; One means start
       // [1]: Actuator mode
-      final byte[] mode = {MODE_START, actuatorMode};
+      final byte[] mode = { MODE_START, actuatorMode };
 
       final float[] targetVector = new float[3];
       targetVector[0] = 0;
@@ -131,16 +127,14 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   }
 
   @Override
-  public synchronized void unset() throws IOException
-  {
+  public synchronized void unset() throws IOException {
     // Set the ADCS to Idle mode
     instrumentsSimulator.getpFineADCS().opModeIdle();
     this.activeAttitudeMode = null;
   }
 
   @Override
-  public AttitudeTelemetry getAttitudeTelemetry() throws IOException
-  {
+  public AttitudeTelemetry getAttitudeTelemetry() throws IOException {
     byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetSensorTelemetry();
     AttitudeTelemetry ret = new AttitudeTelemetry();
     ret.setAngularVelocity(HelperIADCS100.getAngularVelocityFromSensorTM(tmBuffer));
@@ -148,8 +142,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
     ret.setMagneticField(HelperIADCS100.getMagneticFieldFromSensorTM(tmBuffer));
     ret.setSunVector(new VectorF3D((float) 1, (float) 0, (float) 0)); // TODO provide real data
     byte[] tmBufferPointingLoop = instrumentsSimulator.getpFineADCS().GetAttitudeTelemetry();
-    if(HelperIADCS100.getPointingLoopStateTarget(tmBufferPointingLoop) == 1)
-    {
+    if (HelperIADCS100.getPointingLoopStateTarget(tmBufferPointingLoop) == 1) {
       ret.setStateTarget(true);
     } else {
       ret.setStateTarget(false);
@@ -158,8 +151,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   }
 
   @Override
-  public ActuatorsTelemetry getActuatorsTelemetry() throws IOException
-  {
+  public ActuatorsTelemetry getActuatorsTelemetry() throws IOException {
     byte[] tmBuffer = instrumentsSimulator.getpFineADCS().GetActuatorTelemetry();
     ActuatorsTelemetry ret = new ActuatorsTelemetry();
     ret.setMtqDipoleMoment(HelperIADCS100.getMTQFromActuatorTM(tmBuffer));
@@ -170,8 +162,7 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   }
 
   @Override
-  public ReactionWheelParameters getAllReactionWheelParameters()
-  {
+  public ReactionWheelParameters getAllReactionWheelParameters() {
 
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Reaction wheel parameters are not implemented in the Simulator yet!");
@@ -179,43 +170,37 @@ public class AutonomousADCSSoftSimAdapter implements AutonomousADCSAdapterInterf
   }
 
   @Override
-  public String validateAttitudeDescriptor(AttitudeMode attitude)
-  {
+  public String validateAttitudeDescriptor(AttitudeMode attitude) {
     // TODO do some rudimentary checks (i.e. if the angles make sense)
     return null;
   }
 
   @Override
-  public AttitudeMode getActiveAttitudeMode()
-  {
+  public AttitudeMode getActiveAttitudeMode() {
     return activeAttitudeMode;
   }
 
   @Override
   public void setAllReactionWheelSpeeds(float wheelX, float wheelY, float wheelZ, float wheelU,
-      float wheelV, float wheelW)
-  {
+      float wheelV, float wheelW) {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Setting of Reaction wheels is not implemented in the Simulator yet!");
   }
 
   @Override
-  public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed)
-  {
+  public void setReactionWheelSpeed(ReactionWheelIdentifier wheel, float Speed) {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Setting of Reaction wheels is not implemented in the Simulator yet!");
   }
 
   @Override
-  public void setAllReactionWheelParameters(ReactionWheelParameters parameters)
-  {
+  public void setAllReactionWheelParameters(ReactionWheelParameters parameters) {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Setting of Reaction wheels is not implemented in the Simulator yet!");
   }
 
   @Override
-  public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ)
-  {
+  public void setAllMagnetorquersDipoleMoments(Float dipoleX, Float dipoleY, Float dipoleZ) {
     Logger.getLogger(this.getClass().getName()).log(Level.SEVERE,
         "Setting of Magnetorquer dipole moments is not implemented in the Simulator yet!");
   }
